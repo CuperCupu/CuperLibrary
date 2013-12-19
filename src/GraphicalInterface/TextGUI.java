@@ -5,6 +5,7 @@
 package GraphicalInterface;
 
 import Main.Main;
+import Main.Scene;
 import Model.ColorOther;
 import Point.Point;
 
@@ -22,6 +23,15 @@ public class TextGUI extends GUI {
     public TextGUI(Main main, String text, Point point, float size) {
         super(main.getCurrentScene().getGuiContainer(), point, 0f, 0f);
         this.main = main;
+        this.text = text;
+        this.point = point;
+        this.size = size;
+        color = new ColorOther(0f, 0f, 0f);
+    }
+    
+    public TextGUI(Scene scene, String text, Point point, float size) {
+        super(scene.getGuiContainer(), point, 0f, 0f);
+        this.main = scene.getMain();
         this.text = text;
         this.point = point;
         this.size = size;

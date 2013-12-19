@@ -20,6 +20,15 @@ public class ModelMesh extends ModelItem {
         polygon = new ArrayList();
     }
 
+    /**
+     * A constructor with initialized shape
+     * @param main
+     * @param i parent ModelItem
+     * @param name
+     * @param type "Cube"
+     * @param size
+     * @param color 
+     */
     public ModelMesh(Main main, ModelItem i, String name, String type, float size, ColorOther color) {
         this(main, i, name);
         if ("cube".equals(type)) {
@@ -77,9 +86,20 @@ public class ModelMesh extends ModelItem {
         }
     }
 
+    /**
+     * A constructor with initialized shape
+     * @param main
+     * @param i parent ModelItem
+     * @param name
+     * @param type "centerBlock", "topBlock"
+     * @param width
+     * @param height
+     * @param length
+     * @param color 
+     */
     public ModelMesh(Main main, ModelItem i, String name, String type, float width, float height, float length, ColorOther color) {
         this(main, i, name);
-        if (type == "centerBlock") {
+        if ("centerBlock".equals(type)) {
             //Top; 1
             ArrayList<ModelVertex> vertexes = new ArrayList();
             vertexes.add(new ModelVertex(main, this, name + "1", width, height, length, color));
@@ -131,7 +151,7 @@ public class ModelMesh extends ModelItem {
             poly.addVertex(vertexes.get(6));
             poly.addVertex(vertexes.get(5));
             polygon.add(poly);
-        } else if (type == "topBlock") {
+        } else if ("topBlock".equals(type)) {
             //Top; 1
             ArrayList<ModelVertex> vertexes = new ArrayList();
             vertexes.add(new ModelVertex(main, this, name + "1", width, 0, length, color));

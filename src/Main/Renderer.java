@@ -48,20 +48,23 @@ public class Renderer {
 
     public ByteBuffer loadIcon(String path, int width, int height) throws IOException {
         URL resource = this.getClass().getResource(path);
-        BufferedImage image = ImageIO.read(resource); // load image
+        if (resource != null) {
+            BufferedImage image = ImageIO.read(resource); // load image
 
-        // convert image to byte array
-        byte[] imageBytes = new byte[width * height * 4];
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int pixel = image.getRGB(j, i);
-                for (int k = 0; k < 3; k++) {
-                    imageBytes[(i * 16 + j) * 4 + k] = (byte) (((pixel >> (2 - k) * 8)) & 255);
+            // convert image to byte array
+            byte[] imageBytes = new byte[width * height * 4];
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    int pixel = image.getRGB(j, i);
+                    for (int k = 0; k < 3; k++) {
+                        imageBytes[(i * 16 + j) * 4 + k] = (byte) (((pixel >> (2 - k) * 8)) & 255);
+                    }
+                    imageBytes[(i * 16 + j) * 4 + 3] = (byte) (((pixel >> (3) * 8)) & 255); // alpha
                 }
-                imageBytes[(i * 16 + j) * 4 + 3] = (byte) (((pixel >> (3) * 8)) & 255); // alpha
             }
+            return ByteBuffer.wrap(imageBytes);
         }
-        return ByteBuffer.wrap(imageBytes);
+        return null;
     }
 
     public void initGL() throws IOException {
@@ -74,7 +77,9 @@ public class Renderer {
             ByteBuffer[] icons = new ByteBuffer[2];
             icons[0] = loadIcon(icon16Path, 16, 16);
             icons[1] = loadIcon(icon32Path, 32, 32);
-            Display.setIcon(icons);
+            if ((icons[0] != null) && (icons[1] != null)) {
+                Display.setIcon(icons);
+            }
         } catch (LWJGLException e) {
             System.exit(0);
         }
@@ -122,7 +127,7 @@ public class Renderer {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glLoadIdentity();
         GL11.glTranslatef(0.375F, 0.375F, 0.0F);
-        GL11.glClearColor(1f, 1f, 1f, 0f);
+        GL11.glClearColor(clearColor.getRed(), clearColor.getGreen(), clearColor.getBlue(), 0f);
         GL11.glClearDepth(1.0f);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -146,8 +151,8 @@ public class Renderer {
         ready3D();
         renderModel();
         main.action3D();
-        
-        
+
+
         ready2D();
         renderWindows();
         main.action2D();

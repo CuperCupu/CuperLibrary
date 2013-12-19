@@ -33,6 +33,7 @@ public class Main {
     protected Scene currentScene;
     protected ArrayList<Scene> sceneList = new ArrayList();
     protected CWindow focusedWindow;
+    protected String fontPath = "../Resource/font/default.png";
 
     public Main() throws IOException {
         currentScene = new Scene(this, "Main");
@@ -204,5 +205,13 @@ public class Main {
 
     public void setFocusedWindow(CWindow focusedWindow) {
         this.focusedWindow = focusedWindow;
+    }
+
+    public String getFontPath() {
+        return fontPath;
+    }
+
+    public void setFontPath(String fontPath) {
+        this.fontPath = fontPath;
     }
 }

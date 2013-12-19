@@ -31,7 +31,7 @@ public class TextureContainer {
     }
 
     final public void initTextTexture() throws IOException {
-        String path = "../Resource/font/default.png";
+        String path = main.getFontPath();
         URL resource = this.getClass().getResource(path);
         if (resource != null) {
             BufferedImage image = ImageIO.read(resource);
@@ -46,6 +46,8 @@ public class TextureContainer {
                     addTexture(tex);
                 }
             }
+        } else {
+            System.out.println("Text not loaded, no font found at directory: " + path);
         }
     }
 
